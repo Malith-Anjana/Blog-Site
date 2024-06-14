@@ -323,12 +323,16 @@ body{
         display: flex;
         flex-direction: column;
         gap: 20px;
+        font-family: $fontfamily;
 
         input {
           padding: 10px;
           border: 1px solid lightgray;
+          font-family: $fontfamily;
         }
-
+        .quill{
+          font-family: $fontfamily;
+        }
         .editorContainer {
           height: 300px;
           overflow: scroll;
