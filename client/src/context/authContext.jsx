@@ -1,12 +1,15 @@
+/* eslint-disable react/prop-types */
 import axios from "axios";
 import { useEffect } from "react";
 import { useState } from "react";
 import { createContext } from "react";
 import proxy from "../proxy";
 
+
 export const AuthContext = createContext();
 
 export const AuthContextProvider = ({ children }) => {
+
   const [currentUser, setCurrentUser] = useState(
     JSON.parse(localStorage.getItem("user") || null)
   );
