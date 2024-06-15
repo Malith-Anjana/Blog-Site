@@ -1,11 +1,10 @@
-import React from "react";
 import { useEffect } from "react";
 import { useState } from "react";
 import { Link, useLocation } from 'react-router-dom'
 import axios from 'axios'
 import proxy from '../proxy'
 const Home = () => {
-  const [posts, setPosts] = useState();
+  const [posts, setPosts] = useState([]);
   const location = useLocation();
 
   const cat = location.search;
@@ -16,7 +15,7 @@ const Home = () => {
         const res = await axios.get(`${proxy}/posts${cat}`)
         setPosts(res.data)
       } catch (error) {
-        
+        console.log(error)
       }
     }
     fetchData();
