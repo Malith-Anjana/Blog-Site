@@ -1,15 +1,37 @@
-import React from "react";
-import Edit from "../assets/images/edit.png";
+import moment from 'moment';
+import React, { useContext, useEffect, useState } from "react";
+import { Link, useLocation } from "react-router-dom";
 import Delete from "../assets/images/delete.png";
-import { Link } from "react-router-dom";
+import Edit from "../assets/images/edit.png";
 import Menu from "../components/Menu";
+import { AuthContext } from '../context/authContext';
 
 const Single = () => {
+  const [post, setPost] = useState();
+
+  const location = useLocation();
+
+  const postId = location.pathname.split('/')[2];
+
+  const { currentUser} = useContext(AuthContext)
+
+  useEffect(() => {
+    const fetchData = async()=>{
+      try {
+        const res = await axios.get(`${proxy}/posts${postId}`)
+        setPost(res.data)
+      } catch (error) {
+        
+      }
+    }
+    fetchData();
+  }, [postId])
+
   return (
     <div className="single">
       <div className="content">
         <img
-          src="https://images.pexels.com/photos/6157049/pexels-photo-6157049.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
+          src={post?.img}
           alt="image"
         />
 
@@ -19,23 +41,20 @@ const Single = () => {
             alt="image"
           />
           <div className="info">
-            <span>John</span>
-            <p>Posted 2 days ago</p>
+            <span>{post.username}</span>
+            <p>Posted {moment(post.date).fromNow()}</p>
           </div>
-          <div className="edit">
+          {currentUser.username === post.username && <div className="edit">
             <Link to={`/write?edit=2`}>
               <img src={Delete} alt="delete" />
             </Link>
             <Link to={`/write?delete=2`}>
               <img src={Edit} alt="edit" />
             </Link>
-          </div>
+          </div>}
         </div>
-        <h1>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Distinctio, rem.</h1>
-        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Aspernatur, iure. Optio necessitatibus est iste labore repellendus voluptates. Ipsam fugiat odit delectus nulla at quia facere obcaecati. Autem a mollitia provident sequi ipsa recusandae ex commodi, consequuntur temporibus nam inventore tenetur optio, expedita tempora perferendis facilis exercitationem, ratione molestiae laborum beatae!
-        <br/>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Animi repellendus pariatur, eveniet, eum expedita illum quod consequuntur officia mollitia soluta ducimus, consequatur dolor iusto fugiat odio neque placeat. Suscipit, laudantium!
-        </p>     
+        <h1>{post.title}</h1>
+        {post.descrip}  
       </div>
 
       <Menu/>
