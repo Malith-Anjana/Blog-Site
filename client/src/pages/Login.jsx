@@ -1,17 +1,15 @@
-import axios from 'axios';
-import React from 'react'
-import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom'
-import proxy from '../proxy';
+import React, { useContext, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { AuthContext } from '../context/authContext';
 
 const Login = () => {
   const [inputs, setInputs] = useState({
     username: "",
-    email: "",
     password: "",
   });
   const [error, setError] = useState("");
   const navigate = useNavigate();
+  const {login } = useContext(AuthContext);
 
   const handleChange = (e) => {
     setError("");
@@ -21,12 +19,8 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const api = axios.create({
-        baseURL: `${proxy}`,
-        withCredentials: true,
-    });
-      const res = await api.post('/auth/login', inputs);
-      console.log(res)
+      console.log(inputs);
+      await login(inputs);
       navigate('/');
     } catch (error) {
       setError(error.response.data)
