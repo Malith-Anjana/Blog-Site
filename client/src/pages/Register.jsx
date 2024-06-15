@@ -2,6 +2,7 @@ import React from "react";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from 'axios'
+import proxy from "../proxy";
 const Register = () => {
   const [inputs, setInputs] = useState({
     username: "",
@@ -19,7 +20,7 @@ const Register = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post("/auth/register", inputs);
+      const res = await axios.post(`${proxy}/auth/register`, inputs);
       navigate('/login');
     } catch (error) {
       setError(error.response.data)

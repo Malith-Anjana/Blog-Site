@@ -2,6 +2,7 @@ import axios from 'axios';
 import React from 'react'
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom'
+import proxy from '../proxy';
 
 const Login = () => {
   const [inputs, setInputs] = useState({
@@ -20,8 +21,13 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post("/auth/login", inputs);
-      navigate('/home');
+      const api = axios.create({
+        baseURL: `${proxy}`,
+        withCredentials: true,
+    });
+      const res = await api.post('/auth/login', inputs);
+      console.log(res)
+      navigate('/');
     } catch (error) {
       setError(error.response.data)
     }
@@ -33,7 +39,7 @@ const Login = () => {
     <input type='text' placeholder='username' name='username' onChange={handleChange}/>
       <input type='password' placeholder='password' name='password' onChange={handleChange}/>
       <button onClick={handleSubmit}>Login</button>
-      <p>This is an error!</p>
+      {error && <p>{error}</p>}
       <span> Don't you have an account? <Link to='/register'>Register</Link></span>
     </form>
     </div>
