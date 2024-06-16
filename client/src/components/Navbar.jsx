@@ -31,11 +31,12 @@ const Navbar = () => {
           <Link className="link" to='/?cat=foods'>
             <h6>FOODS</h6>
           </Link>
-          <span>{currentUser?.username}</span>
+          <span className="write"><Link className="writelink" to='/write'>Write</Link></span>
           {currentUser ? <span onClick={logout}>Logout</span>: <Link className="link" to='/login'>
             Login
           </Link>}
-          <span className="write"><Link to='/write'>Write</Link></span>
+          <span className="user">{currentUser?.username}</span>
+          <div className="navuser">{currentUser.img && <img src={currentUser.img} alt="image" />}</div>
         </div>
       </div>
     </div>

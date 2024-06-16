@@ -19,6 +19,7 @@ const Single = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    window.scrollTo(0, 0);
     const fetchData = async () => {
       try {
         const res = await axios.get(`${proxy}/posts/${postId}`,  { withCredentials: true });
