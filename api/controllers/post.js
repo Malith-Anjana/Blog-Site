@@ -41,7 +41,7 @@ export const addPost = (req, res) => {
       userInfo.id
     ]
     db.query(q, [value], (err, data)=>{
-      if(err) return res.status(500).json("You can edit only your post!");
+      if(err) return res.status(500).json(err);
 
       return res.status(200).json("Post has been Created!")
     })

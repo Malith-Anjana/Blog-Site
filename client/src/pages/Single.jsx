@@ -60,7 +60,7 @@ const Single = () => {
           )}
         </div>
         <h1>{post.title}</h1>
-        {post.descrip}
+        <p dangerouslySetInnerHTML={{ __html: post.descrip}}/>
       </div>
 
       <Menu cat={post.cat}/>
