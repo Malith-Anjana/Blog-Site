@@ -21,7 +21,7 @@ const Single = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await axios.get(`${proxy}/posts/${postId}`);
+        const res = await axios.get(`${proxy}/posts/${postId}`,  { withCredentials: true });
         setPost(res.data);
       } catch (err) {
         console.log(err);
@@ -53,7 +53,7 @@ const Single = () => {
             <div className="edit">
               <img onClick={handleDelete} src={Delete} alt="delete" />
 
-              <Link to={`/write?delete=2`}>
+              <Link to={`/write?edit=${postId}`} state={post}>
                 <img src={Edit} alt="edit" />
               </Link>
             </div>
