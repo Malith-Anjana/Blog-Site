@@ -3,8 +3,8 @@ import jwt from 'jsonwebtoken';
 
 export const getPost = (req, res) => {
   const q = req.query.cat
-    ? "SELECT * FROM posts WHERE cat=?"
-    : "SELECT * FROM posts";
+    ? "SELECT * FROM posts WHERE cat=? ORDER BY date DESC"
+    : "SELECT * FROM posts ORDER BY date DESC";
 
   db.query(q, [req.query.cat], (err, data) => {
     if (err) return res.status(500).send(err);
@@ -41,7 +41,7 @@ export const addPost = (req, res) => {
       userInfo.id
     ]
     db.query(q, [value], (err, data)=>{
-      if(err) return res.status(500).json("You can delete only your post!");
+      if(err) return res.status(500).json("You can edit only your post!");
 
       return res.status(200).json("Post has been Created!")
     })

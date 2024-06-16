@@ -371,8 +371,7 @@ body{
           }
 
           .buttons{
-            display: flex;
-            justify-content: space-between;
+            padding-block: 5px;
 
             :first-child{
               cursor: pointer;
@@ -384,9 +383,10 @@ body{
             :last-child{
               cursor: pointer;
               color: white;
+              margin-block: 10px;
               background-color: teal;
               border: 1px solid teal;
-              padding: 3px 5px;
+              padding: 5px 7px;
             }
           }
 

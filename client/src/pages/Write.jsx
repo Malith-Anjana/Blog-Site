@@ -3,28 +3,32 @@ import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import axios from "axios";
 import proxy from "../proxy";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import moment from "moment";
+import { BarLoader } from "react-spinners";
 const Write = () => {
+  const navigate = useNavigate();
   const state = useLocation().state;
   const [value, setValue] = useState(state?.descrip || "");
   const [title, setTitle] = useState(state?.title || "");
   const [file, setFile] = useState(null);
   const [cat, setCat] = useState(state?.cat || "");
+  const [isLoading, setIsLoading] = useState(false);
 
   const upload = async () => {
     try {
-      if(!file) return
+      if (!file) return;
       const formData = new FormData();
       formData.append("file", file);
       const res = await axios.post(`${proxy}/upload`, formData);
-      return res.data;
+      return res.data.fileUrl;
     } catch (error) {
       console.log(error);
     }
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsLoading(true);
     const imgURL = await upload();
 
     try {
@@ -50,7 +54,10 @@ const Write = () => {
             },
             { withCredentials: true }
           );
+      setIsLoading(false);
+      navigate("/");
     } catch (error) {
+      setIsLoading(false);
       console.log(error);
     }
   };
@@ -75,24 +82,22 @@ const Write = () => {
         <div className="item">
           <h1>Publish</h1>
           <span>
-            <b>Status: </b>Draft
-          </span>
-          <span>
             <b>Visibility: </b>Public
           </span>
-          <input
-            type="file"
-            id="file"
-            name=""
-            onChange={(e) => setFile(e.target.files[0])}
-          />
-          {/* <label className="file" htmlFor="File">
-            Upload Image
-          </label> */}
-          <div className="buttons">
-            <button>Save as a Draft</button>
-            <button onClick={handleSubmit}>Publish</button>
-          </div>
+
+          {isLoading ? (
+            <BarLoader color="#36d7b7" loading={isLoading} />
+          ) : (
+            <div className="buttons">
+              <input
+                type="file"
+                id="file"
+                name=""
+                onChange={(e) => setFile(e.target.files[0])}
+              />
+              <button onClick={handleSubmit}>Publish</button>
+            </div>
+          )}
         </div>
         <div className="item">
           <h1>Category</h1>
