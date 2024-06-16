@@ -76,17 +76,24 @@ export const updatePost = (req, res) => {
   jwt.verify(token,"customJWTkey", (err, userInfo)=> {
     if(err) return res.status(403).json("Token is not valid");
 
-    const postId = req.params.id
-    const q = "UPDATE posts SET title=?, descrip=?, img=?, cat=? WHERE id=? AND uid=?";
-    const value = [
+    
+    const postId = req.params.id;
+    let q = "UPDATE posts SET title=?, descrip=?, cat=? WHERE id=? AND uid=?";
+    let values = [
       req.body.title,
       req.body.descrip,
-      req.body.img,
       req.body.cat,
-    ]
-    db.query(q, [...value, postId, userInfo.id], (err, data)=>{
-      if(err) return res.status(500).json("You can delete only your post!");
+      postId,
+      userInfo.id,
+    ];
 
+    if (req.body.img) {
+      q = "UPDATE posts SET title=?, descrip=?, img=?, cat=? WHERE id=? AND uid=?";
+      values.splice(2, 0, req.body.img); // Insert img value at index 2
+    }
+    db.query(q, values, (err, data) => {
+      if (err) return res.status(500).json("You can update only your post!");
+      
       return res.status(200).json("Post has been Updated!")
     })
 

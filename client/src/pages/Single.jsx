@@ -50,7 +50,7 @@ const Single = () => {
             <span>{post.username}</span>
             <p>Posted {moment(post.date).fromNow()}</p>
           </div>
-          {currentUser.username === post.username && (
+          {currentUser && currentUser.username === post.username && (
             <div className="edit">
               <img onClick={handleDelete} src={Delete} alt="delete" />
 

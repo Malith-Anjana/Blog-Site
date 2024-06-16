@@ -9,10 +9,12 @@ import proxy from "../proxy";
 export const AuthContext = createContext();
 
 export const AuthContextProvider = ({ children }) => {
+  
 
   const [currentUser, setCurrentUser] = useState(
     JSON.parse(localStorage.getItem("user") || null)
   );
+
 
   const api = axios.create({
     baseURL: `${proxy}`,
