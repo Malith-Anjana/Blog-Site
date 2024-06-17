@@ -24,6 +24,8 @@ app.use("/api/posts", postRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/auth", authRoutes);
 
+app.get("/", (req, res) => res.send("Express on Vercel"));
+
 const PORT = process.env.PORT
 app.listen(PORT, () => {
   console.log("Connected! on "+ PORT);
