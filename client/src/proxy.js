@@ -1,1 +1,1 @@
-export default "http://localhost:8800/api"
+export default "https://blog-siteserver-q50ib6wmt-malith-anjanas-projects.vercel.app/"
