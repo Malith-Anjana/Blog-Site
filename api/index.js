@@ -1,4 +1,4 @@
-import 'dotenv/config'
+import "dotenv/config";
 import express from "express";
 import postRoutes from "./routes/post.js";
 import userRoutes from "./routes/user.js";
@@ -7,16 +7,18 @@ import fileUploadRoute from "./routes/file_upload.js";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 
-
 const app = express();
 
 app.use(express.json());
-app.use(
-  cors({
-    origin: process.env.ORIGIN,
-    credentials: true,
-  })
-);
+
+// Configure CORS options
+const corsOptions = {
+  origin: process.env.ORIGIN,
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"],
+  credentials: true,
+};
+app.use(cors(corsOptions()));
 app.use(cookieParser());
 
 app.use("/api/upload", fileUploadRoute);
@@ -26,7 +28,7 @@ app.use("/api/auth", authRoutes);
 
 app.get("/", (req, res) => res.send("Express on Vercel"));
 
-const PORT = process.env.PORT
+const PORT = process.env.PORT;
 app.listen(PORT, () => {
-  console.log("Connected! on "+ PORT);
+  console.log("Connected! on " + PORT);
 });
