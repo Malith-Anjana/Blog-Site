@@ -1,1 +1,1 @@
-export default "https://blog-siteserver-q50ib6wmt-malith-anjanas-projects.vercel.app/"
+export default "https://blog-siteserver-q50ib6wmt-malith-anjanas-projects.vercel.app/api/"
